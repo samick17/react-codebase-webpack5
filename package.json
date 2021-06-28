@@ -7,11 +7,10 @@
     "start": "webpack serve --mode development --config config/webpack.config.js",
     "build": "webpack --mode production --config config/webpack.config.js"
   },
-  "author": "",
   "dependencies": {
     "history": "^5.0.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
