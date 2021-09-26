@@ -1,4 +1,3 @@
-:local(.foo) {
-	width:  100%;
-	border: 1px solid #eeeeee;
+body {
+	margin: 0;
 }

@@ -1,14 +1,41 @@
 import React from 'react';
-import appStyles from './App.css';
-import styles from './index.module.css';
+import {
+    withStyles,
+    AppBar,
+    Toolbar,
+    Paper,
+    Typography,
+} from '@material-ui/core';
+import Content from './Content.jsx';
 
-function App(props) {
-    return (<div className={styles.foo}>
-        <div>
-            <h2>Welcome to React App</h2>
-            <h3>Date : {new Date().toDateString()}</h3>
+const styles = theme => ({
+  offset: theme.mixins.toolbar,
+});
+
+class Root extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.title = 'Codebase x WebPack 5';
+    }
+
+    render() {
+        const {
+            classes,
+        } = this.props;
+        const {
+            title,
+        } = this;
+        return <div>
+            <AppBar position='static'>
+                <Toolbar>
+                    <Typography>{title}</Typography>
+                </Toolbar>
+            </AppBar>
+            <Content/>
         </div>
-    </div>)
+    }
+
 }
 
-export default App
+export default withStyles(styles)(Root);
