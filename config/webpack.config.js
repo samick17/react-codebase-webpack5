@@ -12,6 +12,7 @@ module.exports = {
  devServer: {
    port: 4200,
    // watchContentBase: true
+   historyApiFallback: true,
  },
   // Rules of how webpack will take our files, complie & bundle them for the browser 
  module: {
@@ -30,5 +31,5 @@ module.exports = {
      }
    ]
  },
- plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
+ plugins: [new HtmlWebpackPlugin({ template: './src/templates/index.html' })],
 }

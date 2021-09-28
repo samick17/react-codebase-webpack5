@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import { createBrowserHistory } from 'history';
 import Root from './Root.jsx';
-import './index.module.css';
+import './styles/index.module.css';
 
 // To prevent load twice
 if(window.isLoaded) {
