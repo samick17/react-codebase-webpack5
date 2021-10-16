@@ -1,19 +1,19 @@
 body {
 	margin: 0;
 }
-.fit-parent {
+:global(.fit-parent) {
 	position: absolute;
 	left: 0;
 	top: 0;
 	right: 0;
 	bottom: 0;
 }
-.flex {
+:global(.flex) {
 	display: flex;
 }
-.marginAuto {
+:global(.marginAuto) {
 	margin: auto;
 }
-.relative {
+:global(.relative) {
 	position: relative;
 }
