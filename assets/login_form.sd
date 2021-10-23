@@ -1,0 +1,20 @@
+* Content *
+$LoginForm
+children: [
+$input
+
+type: string
+placeholder: ID
+
+$input
+
+type: Secret
+placeholder: Password
+
+$button
+
+text: signIn
+]
+
+$CustomButton
+text: ClickMe

@@ -1,14 +1,17 @@
 import React from 'react';
-import { ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import ErrorView from './pages/ErrorView.jsx';
 import AppRouter from './AppRouter.jsx';
 import theme from './theme.js';
 import Routes from './models/Routes.js';
+import Device from './models/Device.js';
 
 class Root extends React.Component {
 
   constructor(props) {
     super(props);
+    require('./styles/index.module.css');
+    document.body.setAttribute('aria-label', Device.classPrefix);
     this.state = {
       hasError: false
     };

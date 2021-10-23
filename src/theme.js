@@ -1,4 +1,4 @@
-import { createTheme } from '@material-ui/core/styles';
+import { createTheme } from '@mui/material/styles';
 import {
 	indigo as primaryColor,
 	pink as secondaryColor,
@@ -6,7 +6,7 @@ import {
 	orange as warningColor,
 	blue as infoColor,
 	teal as successColor,
-} from '@material-ui/core/colors';
+} from '@mui/material/colors';
 
 const mainTheme = createTheme({
 	spacing: 12,

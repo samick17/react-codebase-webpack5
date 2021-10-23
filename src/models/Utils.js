@@ -16,3 +16,11 @@ export async function loadLib(src, id) {
 		document.head.append(script);
 	});
 }
+export function getFileFromGoogleDrive(fileId) {
+	return `https://drive.google.com/uc?id=${fileId}`;
+}
+export async function delay(timeout) {
+	return new Promise((resolve) => {
+		setTimeout(resolve, timeout);
+	});
+}

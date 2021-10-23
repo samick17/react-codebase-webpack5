@@ -1,59 +1,77 @@
 import React from 'react';
 import { BaseComponent } from 'react-event-base/Components';
-import {
-    withStyles,
-    CircularProgress,
-    Typography,
-    Button,
-} from '@material-ui/core';
+import { withStyles } from '@mui/styles';
 import GoogleSignIn from '../components/GoogleSignIn.jsx';
-import GoogleAuth from '../models/GoogleAuth.js';
 import App from '../models/App.js';
-import UserFactory from '../models/factory/UserFactory.js';
+import Overlay from '../components/Overlay.jsx';
+import Center from '../components/Center.jsx';
+import ErrorMessage from '../components/ErrorMessage.jsx';
+import Loading from '../components/Loading.jsx';
+import {
+    isMobileOnly,
+} from 'react-device-detect';
 
 const styles = theme => ({
+    wrapper: props => {
+        return {
+            position: 'relative',
+            overflow: 'auto',
+            height: isMobileOnly ? `calc(100% - 16vh)` : 'calc(100% - 120px)',
+        };
+    },
+    content: {
+        margin: '1vmin',
+    },
 });
 
 class Content extends BaseComponent {
 
     constructor(props) {
         super(props);
-        this.init();
+        App.auth.init();
     }
 
-    onGoogleSignIn = (googleUser) => {
-        let user = UserFactory.createUserFromGoogle(googleUser);
-        App.user = user;
-        App.endFetchUser();
-    }
-
-    onGoogleSignInFailed = (error) => {
-        this.errorMessage = error.message;
-        this.forceUpdate();
-    }
-
-    async init() {
-        App.beginFetchUser();
-        let auth2 = await GoogleAuth.load();
-        App.setSignInMethod('google', auth2);
-        if(auth2.isSignedIn.get()) {
-            let googleUser = auth2.currentUser.get();
-            this.onGoogleSignIn(googleUser);
-        } else {
-            // do nothing
-            App.endFetchUser();
+    async signInRequest() {
+        try {
+            await App.session();
+            return true;
+        } catch(err) {
+            try {
+                let res = await App.signInPortal();
+                await App.reloadAuth();
+                return true;
+            } catch(err) {
+                console.log(err);
+                window.err = err;
+                this.setErrorMessage(err);
+                return false;
+            }
         }
+    }
+
+    setErrorMessage(err) {
+        let message = err.response?.data?.msg || err.message;
+        this.errMessage = message;
+        if(this.errTimer) {
+            window.clearTimer(this.errTimer);
+            delete this.errTimer;
+        }
+        this.errTimer = window.setTimeout(() => {
+            delete this.errTimer;
+            delete this.errMessage;
+            this.forceUpdate();
+        }, 5000);
     }
 
     componentDidMount() {
         super.componentDidMount();
+        const updateView = () => {
+            this.forceUpdate();
+        };
         this.unbindAppEvents = App.on({
-            'user:update': () => {
-                this.forceUpdate();
-            },
-            'user:fetch': () => {
-                this.forceUpdate();
-            },
+            'user:update': updateView,
+            'user:fetch': updateView,
+            'auth:message': updateView,
         });
     }
 
@@ -62,8 +80,45 @@ class Content extends BaseComponent {
         this.unbindEvent('unbindAppEvents');
     }
 
-    onSignOut = () => {
-        App.signOut();
+    renderLoadingView = () => {
+        return <Overlay>
+            <Center>
+                <Loading/>
+            </Center>
+        </Overlay>
+    }
+
+    renderUserView = () => {
+        const {
+            classes,
+        } = this.props;
+        return <div className={classes.content}>
+        </div>
+    }
+
+    renderGuestView = () => {
+        const {
+            onGoogleSignIn,
+            onGoogleSignInFailed,
+            errMessage,
+        } = App.auth;
+        return <Overlay>
+            <Center>
+                <React.Fragment>
+                    <GoogleSignIn
+                    onSignIn={onGoogleSignIn}
+                    onSignInFailed={onGoogleSignInFailed}
+                    />
+                    {
+                        errMessage && <ErrorMessage message={errMessage}/>
+                    }
+                </React.Fragment>
+            </Center>
+        </Overlay>
+    }
+
+    renderEmpty = () => {
+        return <React.Fragment/>
     }
 
     render() {
@@ -71,38 +126,20 @@ class Content extends BaseComponent {
             classes,
         } = this.props;
         const {
-            onGoogleSignIn,
-            onGoogleSignInFailed,
-            errorMessage,
-            onSignOut,
+            renderLoadingView,
+            renderUserView,
+            renderGuestView,
+            renderEmpty,
         } = this;
-        // console.log('isFetchingUser: ', App.isFetchingUser);
-        return <div>
+        return <div className={classes.wrapper} aria-label='content'>
             {
                 App.isFetchingUser ?
-                <div>
-                    <CircularProgress/>
-                </div> :
+                renderLoadingView() :
                 <React.Fragment>
                 {
                     App.isUser ?
-                    <React.Fragment>
-                        <Typography>Hello {App.user.getName()}</Typography>
-                        <Button onClick={onSignOut}>SignOut</Button>
-                    </React.Fragment> :
-                    <React.Fragment>
-                        <GoogleSignIn
-                        onSignIn={onGoogleSignIn}
-                        onSignInFailed={onGoogleSignInFailed}
-                        />
-                        {
-                            errorMessage && <Typography>
-                            {
-                                errorMessage
-                            }
-                            </Typography>
-                        }
-                    </React.Fragment>
+                    App.isProposing ? renderEmpty() : renderUserView() :
+                    renderGuestView()
                 }
                 </React.Fragment>
             }

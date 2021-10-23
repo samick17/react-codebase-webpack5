@@ -5,7 +5,7 @@ import UserFactory from '../models/factory/UserFactory.js';
 import App from '../models/App.js';
 import Config from '../Config.js';
 
-// project: winventor-data
+// project: swinventor-data
 
 class GoogleSignInButton extends BaseComponent {
 
@@ -19,10 +19,15 @@ class GoogleSignInButton extends BaseComponent {
     this.load();
   }
 
+  componentWillUnmount() {
+    super.componentWillUnmount();
+    document.querySelector('#gd-platform').remove();
+  }
+
   async load() {
     try {
-      let googleUser = await this.init();
-      this.props.onSignIn(googleUser);
+      await this.init();
+      this.props.onSignIn();
     } catch(err) {
       this.props.onSignInFailed(err);
     }
@@ -31,20 +36,20 @@ class GoogleSignInButton extends BaseComponent {
   init() {
     return new Promise((resolve, reject) => {
       function onSuccess(googleUser) {
-        resolve(googleUser);
+        resolve();
       }
       function onFailure(error) {
         reject(error);
       }
       function renderButton() {
-        gapi.signin2.render('google-signin-btn', {
-          'scope': 'profile email',
+        window.gapi.signin2.render('google-signin-btn', {
+          'scope': Config.google_scopes,
           'width': 240,
           'height': 50,
           'longtitle': true,
           'theme': 'dark',
           'onsuccess': onSuccess,
-          'onfailure': onFailure
+          'onfailure': onFailure,
         });
         delete window.renderButton;
       }
@@ -53,12 +58,12 @@ class GoogleSignInButton extends BaseComponent {
     });
   }
 
-	render() {
-		return <div>
+  render() {
+    return <div>
       <meta name="google-signin-client_id" content={`${Config.google_client_id}`}/>
-			<div id='google-signin-btn'/>
-		</div>
-	}
+      <div id='google-signin-btn'/>
+    </div>
+  }
 
 }
 

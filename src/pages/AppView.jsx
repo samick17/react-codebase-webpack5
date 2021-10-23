@@ -1,11 +1,11 @@
 import React from 'react';
+import { withStyles } from '@mui/styles';
 import {
-    withStyles,
     AppBar,
     Toolbar,
     Paper,
     Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import Content from '../views/Content.jsx';
 
 const styles = theme => ({
@@ -16,7 +16,7 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.title = 'Codebase x WebPack 5';
+        this.title = 'React CodeBase x Webpack 5';
     }
 
     render() {

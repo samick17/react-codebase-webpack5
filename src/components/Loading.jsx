@@ -2,11 +2,12 @@ import React from 'react';
 import { withStyles } from '@mui/styles';
 import {
     Typography,
+    CircularProgress,
 } from '@mui/material';
 
 const styles = theme => ({
     wrapper: {
-        position: 'fixed',
+        position: 'absolute',
         left: 0,
         top: 0,
         right: 0,
@@ -18,7 +19,7 @@ const styles = theme => ({
     },
 });
 
-class PageNotFound extends React.Component {
+class Loading extends React.Component {
 
     render() {
         const {
@@ -27,11 +28,12 @@ class PageNotFound extends React.Component {
         } = this.props;
         return <div className={classes.wrapper}>
             <div className={classes.content}>
-                <Typography variant='h5'>Page Not Found</Typography>
+            	<CircularProgress/>
+                <Typography variant='h5'>Loading</Typography>
             </div>
         </div>
     }
 
 }
 
-export default withStyles(styles)(PageNotFound);
+export default withStyles(styles)(Loading);

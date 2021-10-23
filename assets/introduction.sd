@@ -1,0 +1,63 @@
+* Settings *
+Resource  ./login_form.sd
+
+* Content *
+$header
+
+style: width:100%;height:5vh;background-color:#eeeeee;
+
+children: [
+$text
+text: my app
+]
+
+$content
+
+style: display:block;width:100%;height:90vh;background-color:#eeeeee;overflow:auto;
+
+children: [
+$button
+
+text: Hello
+
+$input
+
+placeholder: Your Name
+value: ASDFG
+
+$button
+
+text: Apply Content
+
+$container
+
+children: [
+$input
+
+placeholder: Name
+
+style: color:red;font-weight:bold;
+
+
+$input
+
+value: 123
+placeholder: "asd"
+
+$button
+text: Apply
+color: primary
+]
+
+$LoginForm
+]
+
+$footer
+
+style: width:100%;height:5vh;background-color:#eeeeee;
+
+children: [
+$text
+text: ContactInfo
+]
+

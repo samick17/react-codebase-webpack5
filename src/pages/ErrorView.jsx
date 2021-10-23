@@ -1,5 +1,6 @@
 import React from 'react';
-import { withStyles, Button, Typography } from '@material-ui/core';
+import { withStyles } from '@mui/styles';
+import { Button, Typography } from '@mui/material';
 
 const styles = theme => ({
     wrapper: {

@@ -33,4 +33,5 @@ function getServedPath(appPackageJson) {
 module.exports = {
   appBuild: resolveApp('build'),
   appSrc: resolveApp('src'),
+  publicPath: resolveApp('assets'),
 };
