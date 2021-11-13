@@ -13,6 +13,7 @@ class App extends EventModel {
 			app: this,
 		});
 		this.user = UserFactory.createGuestUser();
+		this.isLocal = window.location.hostname === 'localhost';
 		this.client = axios.create({
 			baseURL: (() => {
 				if(window.location.origin === 'http://localhost:4200') {
@@ -25,7 +26,24 @@ class App extends EventModel {
 			})(),
 			withCredentials: true,
 		});
+		this.attachDebugFunction();
 	}
+
+	attachDebugFunction() {
+        const app = this;
+        if(!app.isLocal) {
+        	return;
+        }
+        window.d = {
+        	app: app,
+            getDriveInfo: async () => {
+                return app.getDriveInfo();
+            },
+            showPicker: () => {
+                app.pickFile();
+            },
+        };
+    }
 
 	async initializeData() {
 	}

@@ -1,7 +1,6 @@
 let config = {
   google: {
-    'pickerAPIKey': 'AIzaSyC7guMg4CPBmnb0ztqQyta9cbS9dxXOyfw',
-    'apiKey': 'AIzaSyCUsBvJ4S1YVDaBvKRlG1JL_JBz15kcxDE',
+    'apiKey': 'AIzaSyBB7g0dOq1ifbqI9Ve2rhVY-b6NEZPayiM',
     'clientId': '623229342479-jp9fov4q9okpla9112005q46fqlst4h4.apps.googleusercontent.com',
     'scope': [
     'openid',

@@ -1,6 +1,6 @@
-const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
+const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const paths = require('./paths');
 
 const env = {
@@ -61,9 +61,11 @@ module.exports = {
  },
  plugins: [
   new HtmlWebpackPlugin({
-    // inject: true,
     template: './src/templates/index.html'
   }),
-  new InterpolateHtmlPlugin(HtmlWebpackPlugin, env),
+  new InterpolateHtmlPlugin(env),
+  new webpack.ProvidePlugin({
+    process: 'process/browser',
+  }),
  ],
 }

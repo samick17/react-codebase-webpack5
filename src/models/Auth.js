@@ -33,7 +33,7 @@ class Auth extends EventModel {
         this.errMessage = message;
         app.emitAuthErrorMessageEvent();
         if(this.errTimer) {
-            window.clearTimer(this.errTimer);
+            window.clearTimeout(this.errTimer);
             delete this.errTimer;
         }
         this.errTimer = window.setTimeout(() => {
@@ -43,20 +43,6 @@ class Auth extends EventModel {
         }, 5000);
     }
 
-    attachDebugFunction() {
-        const { app } = this;
-        const gapi = this.gapi;
-        window.d = {
-            gapi: gapi,
-            getDriveInfo: async () => {
-                return app.getDriveInfo();
-            },
-            showPicker: () => {
-                app.pickFile();
-            },
-        };
-    }
-
     async init() {
         const { app } = this;
         app.beginFetchUser();
@@ -64,8 +50,7 @@ class Auth extends EventModel {
         let auth2 = gapi.auth2.getAuthInstance();
         app.setSignInMethod('google', gapi);
         if(auth2.isSignedIn.get()) {
-            this.onGoogleSignIn();
-            this.attachDebugFunction();
+            await this.onGoogleSignIn();
         } else {
             // do nothing
             app.endFetchUser();
@@ -80,7 +65,7 @@ class Auth extends EventModel {
         if(await this.signInRequest()) {
             let user = UserFactory.createUserFromGoogle(googleUser, {});
             app.user = user;
-            app.initializeData();
+            await app.initializeData();
         }
         app.endFetchUser();
     }

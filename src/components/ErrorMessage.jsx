@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@mui/styles';
 import { Typography } from '@mui/material';
-import FlexContainer from './FlexContainer.jsx';
+import FlexContainer from './layout/FlexContainer.jsx';
 
 const styles = theme => ({
 	block: {

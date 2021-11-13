@@ -1,15 +1,15 @@
 import React from 'react';
 import { BaseComponent } from 'react-event-base/Components';
 import { withStyles } from '@mui/styles';
-import GoogleSignIn from '../components/GoogleSignIn.jsx';
-import App from '../models/App.js';
-import Overlay from '../components/Overlay.jsx';
-import Center from '../components/Center.jsx';
-import ErrorMessage from '../components/ErrorMessage.jsx';
-import Loading from '../components/Loading.jsx';
 import {
     isMobileOnly,
 } from 'react-device-detect';
+import App from '../models/App.js';
+import Overlay from '../components/layout/Overlay.jsx';
+import Center from '../components/layout/Center.jsx';
+import GoogleSignIn from '../components/GoogleSignIn.jsx';
+import ErrorMessage from '../components/ErrorMessage.jsx';
+import Loading from '../components/Loading.jsx';
 
 const styles = theme => ({
     wrapper: props => {
@@ -31,29 +31,11 @@ class Content extends BaseComponent {
         App.auth.init();
     }
 
-    async signInRequest() {
-        try {
-            await App.session();
-            return true;
-        } catch(err) {
-            try {
-                let res = await App.signInPortal();
-                await App.reloadAuth();
-                return true;
-            } catch(err) {
-                console.log(err);
-                window.err = err;
-                this.setErrorMessage(err);
-                return false;
-            }
-        }
-    }
-
     setErrorMessage(err) {
         let message = err.response?.data?.msg || err.message;
         this.errMessage = message;
         if(this.errTimer) {
-            window.clearTimer(this.errTimer);
+            window.clearTimeout(this.errTimer);
             delete this.errTimer;
         }
         this.errTimer = window.setTimeout(() => {
