@@ -1,7 +1,7 @@
 {
-  "name": "xide-app",
+  "name": "react-codebase-webpack5",
   "version": "1.0.0",
-  "description": "XIDE web application",
+  "description": "React CodeBase Webpack 5",
   "main": "index.js",
   "scripts": {
     "start": "webpack serve --mode development --config config/webpack.config.js",

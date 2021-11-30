@@ -34,4 +34,5 @@ module.exports = {
   appBuild: resolveApp('build'),
   appSrc: resolveApp('src'),
   publicPath: resolveApp('assets'),
+  servedPath: getServedPath(resolveApp('package.json')),
 };
