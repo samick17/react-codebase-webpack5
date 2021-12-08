@@ -20,7 +20,6 @@ module.exports = {
   // Where files should be sent once they are bundled
  output: {
    path: paths.appBuild,
-   // filename: 'index.bundle.js',
    filename: `${StaticFolder}/js/[name].[chunkhash:8].js`,
    chunkFilename: `${StaticFolder}/js/[name].[chunkhash:8].chunk.js`,
    publicPath: paths.servedPath,
@@ -50,7 +49,7 @@ module.exports = {
        use: ['style-loader', 'css-loader']
      },
      {
-        test: /\.(png|jpg|gif|svg)$/i,
+        test: /\.(png|jpg|gif|svg|json)$/i,
         use: [
           {
             loader: 'url-loader',

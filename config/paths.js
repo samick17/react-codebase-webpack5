@@ -21,7 +21,7 @@ function ensureSlash(path, needsSlash) {
 }
 
 const getPublicUrl = appPackageJson => {
-  envPublicUrl || require(appPackageJson).homepage;
+  return envPublicUrl || require(appPackageJson).homepage;
 };
 
 function getServedPath(appPackageJson) {
