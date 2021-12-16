@@ -1,6 +1,7 @@
 import { EventModel } from 'react-event-base/Core';
 import UserFactory from './factory/UserFactory.js';
 import GoogleAuth from './GoogleAuth.js';
+import API from './API.js';
 
 class Auth extends EventModel {
 
@@ -11,7 +12,7 @@ class Auth extends EventModel {
     async signInRequest() {
         const { app } = this;
         try {
-            await app.session();
+            await API.session();
             return true;
         } catch(err) {
             try {

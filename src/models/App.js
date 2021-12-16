@@ -4,6 +4,7 @@ import Config from '../Config.js';
 import UserFactory from './factory/UserFactory.js';
 import { getFileFromGoogleDrive } from './Utils';
 import Auth from './Auth.js';
+import API from './API.js';
 
 class App extends EventModel {
 
@@ -14,18 +15,6 @@ class App extends EventModel {
 		});
 		this.user = UserFactory.createGuestUser();
 		this.isLocal = window.location.hostname === 'localhost';
-		this.client = axios.create({
-			baseURL: (() => {
-				if(window.location.origin === 'http://localhost:4200') {
-					return 'http://localhost:8000';
-				} else if(window.location.origin === 'http://localhost:8000') {
-					return 'http://localhost:8000';
-				} else {
-					return '';
-				}
-			})(),
-			withCredentials: true,
-		});
 		this.attachDebugFunction();
 	}
 
@@ -150,23 +139,12 @@ class App extends EventModel {
 		});
 	}
 
-	session() {
-		return this.client({
-			method: 'get',
-			url: '/api/v1/account/me',
-		});
-	}
-
 	signIn() {
 		let data = {
 			provider: 'google',
 			token: this.authInfo.access_token,
 		};
-		return this.client({
-			method: 'post',
-			url: '/api/v1/account/signin',
-			data: data,
-		});
+		return API.signIn(data);
 	}
 
 	signUp() {
@@ -174,11 +152,7 @@ class App extends EventModel {
 			provider: 'google',
 			token: this.authInfo.access_token,
 		};
-		return this.client({
-			method: 'post',
-			url: '/api/v1/account/signup',
-			data: data,
-		});
+		return API.signUp(data);
 	}
 
 	signInPortal() {
@@ -186,20 +160,12 @@ class App extends EventModel {
 			provider: 'google',
 			token: this.authInfo.access_token,
 		};
-		return this.client({
-			method: 'post',
-			url: '/api/v1/account/signin_portal',
-			data: data,
-		});
+		return API.signInPortal(data);
 	}
 
 	async signOut() {
 		await this.signOutGoogle();
-		return this.client({
-			method: 'post',
-			url: '/api/v1/account/signout',
-			data: {},
-		});
+		return API.signOut();
 	}
 
 	uploadFile(file) {
