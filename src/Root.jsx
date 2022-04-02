@@ -41,7 +41,14 @@ class Root extends React.Component {
       history={this.props.browserHistory}
       entries={Routes.Entries}
       loaders={Routes.Loaders}
+      ref={node=>this.router=node}
     />;
+  }
+
+  update() {
+    if(this.router) {
+      this.router.update();
+    }
   }
 
   render () {

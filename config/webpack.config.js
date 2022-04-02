@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const paths = require('./paths');
 
 const StaticFolder = 'res';
@@ -38,11 +39,13 @@ module.exports = {
    rules: [
      {
        test: /\.(js|jsx)$/,
+       loader: 'esbuild-loader',
        include: paths.appSrc,
        exclude: /nodeModules/,
-       use: {
-         loader: 'babel-loader'
-       }
+       options: {
+         loader: 'jsx',
+         target: 'es2015',
+       },
      },
      {
        test: /\.css$/,
@@ -71,5 +74,6 @@ module.exports = {
   new webpack.ProvidePlugin({
     process: 'process/browser',
   }),
+  new CompressionPlugin(),
  ],
 }
