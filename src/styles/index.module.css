@@ -42,6 +42,9 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-tap-highlight-color: transparent;
 }
+:global(.sketch-picker) {
+  box-shadow: none !important;
+}
 :global(.unselectable) {
   user-select: none;
   -webkit-user-select: none;
@@ -49,4 +52,11 @@ body {
 }
 ::placeholder {
 	color: #bebebe;
+}
+:global(.spin) {
+  animation: spin 4s infinite linear;
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
 }
