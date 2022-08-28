@@ -2,21 +2,22 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const Dotenv = require("dotenv-webpack");
 const paths = require('./paths');
 
 const StaticFolder = 'res';
 
 const env = {
-  NODE_ENV: process.env.NODE_ENV || 'development',
-  NAME: process.env.NAME || 'name',
-  TITLE: process.env.TITLE || 'title',
-  DESCRIPTION: process.env.DESCRIPTION || 'description',
-  TYPE: process.env.TYPE || 'website',
+  NAME: process.env.NAME,
+  TITLE: process.env.TITLE,
+  DESCRIPTION: process.env.DESCRIPTION,
+  TYPE: process.env.TYPE,
   IMAGE_URL: process.env.IMAGE_URL,
   IMAGE_WIDTH: process.env.IMAGE_WIDTH,
   IMAGE_HEIGHT: process.env.IMAGE_HEIGHT,
-  VERSION: process.env.VERSION || require('../package.json').version,
+  VERSION: process.env.VERSION,
 };
+
 module.exports = {
   // Where files should be sent once they are bundled
  output: {
@@ -71,6 +72,9 @@ module.exports = {
     template: './src/templates/index.html'
   }),
   new InterpolateHtmlPlugin(env),
+  new Dotenv({
+    systemvars: true,
+  }),
   new webpack.ProvidePlugin({
     process: 'process/browser',
   }),

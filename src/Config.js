@@ -1,6 +1,6 @@
 let config = {
   google: {
-    'apiKey': 'AIzaSyBB7g0dOq1ifbqI9Ve2rhVY-b6NEZPayiM',
+    'apiKey': process.env.GOOGLE_API_KEY,
     'clientId': '623229342479-jp9fov4q9okpla9112005q46fqlst4h4.apps.googleusercontent.com',
     'scope': [
     'openid',
